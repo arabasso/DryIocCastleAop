@@ -30,7 +30,7 @@ namespace DryIocCastleAop
             if (!serviceType.IsClass)
                 throw new ArgumentException(string.Format("Intercepted service type {0} is not a class", serviceType));
 
-            var proxyType = ProxyBuilder.Value.CreateClassProxyTypeWithTarget(serviceType, new Type[0], ProxyOptions.Value);
+            var proxyType = ProxyBuilder.Value.CreateClassProxyType(serviceType, new Type[0], ProxyOptions.Value);
 
             registrator.Register(serviceType, proxyType, made: Made.Of(FactoryMethod.ConstructorWithResolvableArguments, Parameters.Of.Type<IInterceptor[]>(typeof (TInterceptor[]))), setup: Setup.Decorator);
         }

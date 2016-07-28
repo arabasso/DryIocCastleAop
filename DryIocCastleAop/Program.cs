@@ -4,24 +4,40 @@
  */
 
 using DryIoc;
+using DryIocCastleAop.Forms;
 using DryIocCastleAop.Services;
+using DryIocCastleAop.Views;
 using System;
+using System.Windows.Forms;
 
 namespace DryIocCastleAop
 {
     class Program
     {
+        [STAThread]
         static void Main()
         {
-            using(var container = new Container())
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            using (var container = new Container(rules => rules.WithoutThrowOnRegisteringDisposableTransient()))
             {
                 container.Register<AspectInterceptor>();
+
                 container.Register<UserService>();
-                container.Register<GroupService>();
-                container.Register<IEmailService, EmailService>();
                 container.RegisterClassInterceptor<UserService, AspectInterceptor>();
+
+                container.Register<GroupService>();
                 container.RegisterClassInterceptor<GroupService, AspectInterceptor>();
+
+                container.Register<IEmailService, EmailService>();
                 container.RegisterInterfaceInterceptor<IEmailService, AspectInterceptor>();
+
+                container.Register<MainForm>();
+                container.RegisterClassInterceptor<MainForm, AspectInterceptor>();
+
+                container.Register<MainView>();
+                container.RegisterClassInterceptor<MainView, AspectInterceptor>();
 
                 var us = container.Resolve<UserService>();
 
@@ -66,10 +82,9 @@ namespace DryIocCastleAop
 
                     es.Resend();
                 }
-            }
 
-            Console.WriteLine("Press any key to continue. . .");
-            Console.ReadKey();
+                Application.Run(container.Resolve<MainForm>());
+            }
         }
 
         static void Hr()
