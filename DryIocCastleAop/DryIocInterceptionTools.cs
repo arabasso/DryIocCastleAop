@@ -17,6 +17,12 @@ namespace DryIocCastleAop
                 .Select(s => (Aspect)s);
         }
 
+        public static bool HasAspects(this MemberInfo memberInfo)
+        {
+            return memberInfo.GetCustomAttributes(true)
+                .Any(w => w.GetType().IsSubclassOf(typeof(Aspect)));
+        }
+
         public static void RegisterClassInterceptor<TService, TInterceptor>(this IRegistrator registrator)where TInterceptor : class, IInterceptor
         {
             var serviceType = typeof (TService);

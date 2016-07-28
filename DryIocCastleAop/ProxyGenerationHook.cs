@@ -18,13 +18,7 @@ namespace DryIocCastleAop
 
         public bool ShouldInterceptMethod(Type type, MethodInfo methodInfo)
         {
-            var aspectType = typeof(Aspect);
-
-            if (type.GetCustomAttributes(true).Any(a => a.GetType().IsSubclassOf(aspectType))) return true;
-
-            return methodInfo
-                .GetCustomAttributes(true)
-                .Any(a => a.GetType().IsSubclassOf(aspectType));
+            return type.HasAspects() || methodInfo.HasAspects();
         }
     }
 }
