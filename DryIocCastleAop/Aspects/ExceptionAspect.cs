@@ -7,6 +7,8 @@ namespace DryIocCastleAop.Aspects
         public override void OnException(AspectArgs args, Exception exception)
         {
             Console.WriteLine("OnException: {0}", exception.Message);
+
+            args.Invocation.ReturnValue = false;
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     public interface IEmailService
     {
-        void Send();
+        bool Send();
+        void Resend();
     }
 }

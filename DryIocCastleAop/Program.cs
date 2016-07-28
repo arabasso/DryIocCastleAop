@@ -60,7 +60,12 @@ namespace DryIocCastleAop
                 var es = container.Resolve<IEmailService>();
 
                 // Intercepted by ExceptionAspect
-                es.Send();
+                if (!es.Send())
+                {
+                    Hr();
+
+                    es.Resend();
+                }
             }
 
             Console.WriteLine("Press any key to continue. . .");

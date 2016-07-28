@@ -7,11 +7,19 @@ namespace DryIocCastleAop.Services
     public class EmailService : IEmailService
     {
         [ExceptionAspect]
-        public void Send()
+        public bool Send()
         {
             Console.WriteLine("\tSend()");
 
             throw new NotImplementedException();
+
+            return true;
+        }
+
+        [TimingAspect, LogAspect]
+        public void Resend()
+        {
+            Console.WriteLine("\tResend()");
         }
     }
 }

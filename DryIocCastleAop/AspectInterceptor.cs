@@ -19,31 +19,44 @@ namespace DryIocCastleAop
         {
             Console.WriteLine("{0} invocation", invocation);
 
-            var aspects = invocation
-                .MethodInvocationTarget
-                .GetAspects()
-                .Union(invocation.TargetType.GetAspects())
-                .ToList();
+            var aspects = invocation.TargetType.GetAspects()
+                .Union(invocation.MethodInvocationTarget.GetAspects());
 
             var args = new AspectArgs(_container, invocation);
 
+            Exception ex = null;
+
             try
             {
-                aspects.ForEach(f => f.OnEntry(args));
+                foreach(var aspect in aspects)
+                {
+                    aspect.OnEntry(args);
+                }
 
                 invocation.Proceed();
-
-                aspects.ForEach(f => f.OnSucess(args));
             }
 
             catch (Exception exception)
             {
-                aspects.ForEach(f => f.OnException(args, exception));
+                ex = exception;
             }
 
             finally
             {
-                aspects.ForEach(f => f.OnExit(args));
+                foreach (var aspect in aspects.Reverse())
+                {
+                    if (ex != null)
+                    {
+                        aspect.OnException(args, ex);
+                    }
+
+                    else
+                    {
+                        aspect.OnSucess(args);
+                    }
+
+                    aspect.OnExit(args);
+                }
             }
         }
     }
