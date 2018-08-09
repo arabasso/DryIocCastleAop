@@ -8,6 +8,7 @@ using DryIocCastleAop.Forms;
 using DryIocCastleAop.Services;
 using DryIocCastleAop.Views;
 using System;
+
 using System.Windows.Forms;
 
 namespace DryIocCastleAop
