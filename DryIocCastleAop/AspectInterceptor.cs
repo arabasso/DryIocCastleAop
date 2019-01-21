@@ -2,25 +2,28 @@
 using DryIoc;
 using DryIocCastleAop.Aspects;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DryIocCastleAop
 {
-    public class AspectInterceptor : IInterceptor
+    public class AspectInterceptor
+        : IInterceptor
     {
         readonly IContainer _container;
 
-        public AspectInterceptor(IContainer container)
+        public AspectInterceptor(
+            IContainer container)
         {
             _container = container;
         }
 
-        public void Intercept(IInvocation invocation)
+        public void Intercept(
+            IInvocation invocation)
         {
             Console.WriteLine("{0} invocation", invocation);
 
-            var aspects = invocation.TargetType.GetAspects()
-                .Union(invocation.MethodInvocationTarget.GetAspects());
+            var aspects = GetAspects(invocation);
 
             var args = new AspectArgs(_container, invocation);
 
@@ -58,6 +61,14 @@ namespace DryIocCastleAop
                     aspect.OnExit(args);
                 }
             }
+        }
+
+        private static IList<Aspect> GetAspects(
+            IInvocation invocation)
+        {
+            return invocation.TargetType.GetAspects()
+                .Union(invocation.MethodInvocationTarget.GetAspects())
+                .ToList();
         }
     }
 }

@@ -10,6 +10,7 @@ using DryIocCastleAop.Views;
 using System;
 
 using System.Windows.Forms;
+using DryIocCastleAop.DryIoc;
 
 namespace DryIocCastleAop
 {
@@ -26,19 +27,19 @@ namespace DryIocCastleAop
                 container.Register<AspectInterceptor>();
 
                 container.Register<UserService>();
-                container.RegisterClassInterceptor<UserService, AspectInterceptor>();
+                container.Intercept<UserService, AspectInterceptor>();
 
                 container.Register<GroupService>();
-                container.RegisterClassInterceptor<GroupService, AspectInterceptor>();
+                container.Intercept<GroupService, AspectInterceptor>();
 
                 container.Register<IEmailService, EmailService>();
-                container.RegisterInterfaceInterceptor<IEmailService, AspectInterceptor>();
+                container.Intercept<IEmailService, AspectInterceptor>();
 
                 container.Register<MainForm>();
-                container.RegisterClassInterceptor<MainForm, AspectInterceptor>();
+                container.Intercept<MainForm, AspectInterceptor>();
 
                 container.Register<MainView>();
-                container.RegisterClassInterceptor<MainView, AspectInterceptor>();
+                container.Intercept<MainView, AspectInterceptor>();
 
                 var us = container.Resolve<UserService>();
 

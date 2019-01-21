@@ -35,11 +35,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.3.3.3\lib\net40-client\Castle.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.3.1\lib\net40\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspectExtensions.cs" />
     <Compile Include="AspectInterceptor.cs" />
     <Compile Include="Aspects\Aspect.cs" />
     <Compile Include="Aspects\ExceptionAspect.cs" />
@@ -57,10 +58,10 @@
     <Compile Include="Aspects\LogAspect.cs" />
     <Compile Include="Aspects\TransactionAspect.cs" />
     <Compile Include="DryIoc\Container.cs" />
+    <Compile Include="DryIoc\DryIocInterception.cs" />
     <Compile Include="DryIoc\FactoryCompiler.cs" />
     <Compile Include="DryIoc\ImTools.cs" />
     <Compile Include="DryIoc\Ported-net45.cs" />
-    <Compile Include="DryIocInterceptionTools.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
